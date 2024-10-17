@@ -1,0 +1,9 @@
+.idea
+__pycache__
+icons
+Lib
+Scripts
+main_db_test.db
+pyvenv.cfg
+test.py
+test2.py
