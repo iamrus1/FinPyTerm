@@ -12,9 +12,9 @@ class DataBase:
 
     def create_db(self):
         '''Метод для начального создания БД'''
-        list_of_queries = (FinpyQueries.accounts_table_query, FinpyQueries.incomes_table_query,
-                           FinpyQueries.outcomes_table_query, FinpyQueries.income_categories_table_query,
-                           FinpyQueries.outcome_categories_table_query,)
+        list_of_queries = (FinPyQueries.accounts_table_query, FinPyQueries.incomes_table_query,
+                           FinPyQueries.outcomes_table_query, FinPyQueries.income_categories_table_query,
+                           FinPyQueries.outcome_categories_table_query,)
 
         for query in list_of_queries:
             self.send_change_query(query=query)
@@ -54,7 +54,7 @@ class Account:
         self.account_name = account_name
         self.amount = amount
         self.__db = db
-        self.__db.send_change_query(FinpyQueries.add_account_query, self.account_name, self.amount)
+        self.__db.send_change_query(FinPyQueries.add_account_query, self.account_name, self.amount)
 
     def update_account(self, new_account_name=None, new_amount=None):
         '''Метод для изменения названия счёта'''
@@ -62,13 +62,13 @@ class Account:
             new_account_name = self.account_name
         if not new_amount:
             new_amount = self.amount
-        self.__db.send_change_query(FinpyQueries.update_account_query, new_account_name, new_amount, self.account_name)
+        self.__db.send_change_query(FinPyQueries.update_account_query, new_account_name, new_amount, self.account_name)
         self.account_name = new_account_name
         self.amount = new_amount
         return True
 
     def delete_account(self):
-        self.__db.send_change_query(FinpyQueries.delete_account_query, self.account_name)
+        self.__db.send_change_query(FinPyQueries.delete_account_query, self.account_name)
         return True
 
     def add_transaction(self, transaction_type, income_amount, income_category, income_date):
@@ -82,12 +82,12 @@ class Accounts:
 
     def get_list_accounts(self):
         '''Метод для получения списка счетов'''
-        accounts = self.__db.send_read_query(query=FinpyQueries.get_accounts_query)
+        accounts = self.__db.send_read_query(query=FinPyQueries.get_accounts_query)
         return accounts
 
     def get_account_amounts(self):
         '''Метод для получения списка счетов, отсортированных по суммам на них'''
-        accounts = self.__db.send_read_query(query=FinpyQueries.get_account_amounts_query)
+        accounts = self.__db.send_read_query(query=FinPyQueries.get_account_amounts_query)
         return accounts
 
 class Categories:
@@ -98,9 +98,9 @@ class Categories:
     def add_category(self, transaction_type, category_name):
         '''Метод для добавления категории'''
         if transaction_type == 'income':
-            self.__db.send_change_query(FinpyQueries.add_income_category_query, category_name)
+            self.__db.send_change_query(FinPyQueries.add_income_category_query, category_name)
         elif transaction_type == 'outcome':
-            self.__db.send_change_query(FinpyQueries.add_outcome_category_query, category_name)
+            self.__db.send_change_query(FinPyQueries.add_outcome_category_query, category_name)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
@@ -109,9 +109,9 @@ class Categories:
     def update_category(self, transaction_type, new_category_name, old_category_name):
         '''Метод для добавления категории'''
         if transaction_type == 'income':
-            self.__db.send_change_query(FinpyQueries.update_income_category_query, new_category_name, old_category_name)
+            self.__db.send_change_query(FinPyQueries.update_income_category_query, new_category_name, old_category_name)
         elif transaction_type == 'outcome':
-            self.__db.send_change_query(FinpyQueries.update_outcome_category_query, new_category_name, old_category_name)
+            self.__db.send_change_query(FinPyQueries.update_outcome_category_query, new_category_name, old_category_name)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
@@ -120,9 +120,9 @@ class Categories:
     def delete_category(self, transaction_type, category_name):
         '''Метод для удаления категории'''
         if transaction_type == 'income':
-            self.__db.send_change_query(FinpyQueries.delete_income_category_query, category_name)
+            self.__db.send_change_query(FinPyQueries.delete_income_category_query, category_name)
         elif transaction_type == 'outcome':
-            self.__db.send_change_query(FinpyQueries.delete_outcome_category_query, category_name)
+            self.__db.send_change_query(FinPyQueries.delete_outcome_category_query, category_name)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
@@ -133,9 +133,9 @@ class Categories:
         categories = None
 
         if transaction_type == 'income':
-            categories = self.__db.send_read_query(query=FinpyQueries.get_income_categories)
+            categories = self.__db.send_read_query(query=FinPyQueries.get_income_categories)
         elif transaction_type == 'outcome':
-            categories = self.__db.send_read_query(query=FinpyQueries.get_outcome_categories)
+            categories = self.__db.send_read_query(query=FinPyQueries.get_outcome_categories)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
@@ -149,9 +149,9 @@ class Transactions:
 
     def add_income_transaction(self, transaction_type, amount, category, date, account_name):
         if transaction_type == 'income':
-            self.__db.send_change_query(FinpyQueries.add_income_transaction_query, amount, category, date, account_name)
+            self.__db.send_change_query(FinPyQueries.add_income_transaction_query, amount, category, date, account_name)
         elif transaction_type == 'outcomes':
-            self.__db.send_change_query(FinpyQueries.add_outcome_transaction_query, amount, category, date, account_name)
+            self.__db.send_change_query(FinPyQueries.add_outcome_transaction_query, amount, category, date, account_name)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
@@ -160,9 +160,9 @@ class Transactions:
     def get_list_transactions(self, transaction_type):
         transactions_list = None
         if transaction_type == 'income':
-            transactions_list = self.__db.send_read_query(FinpyQueries.get_list_income_transactions_query)
+            transactions_list = self.__db.send_read_query(FinPyQueries.get_list_income_transactions_query)
         elif transaction_type == 'outcomes':
-            transactions_list = self.__db.send_read_query(FinpyQueries.get_list_outcome_transactions_query)
+            transactions_list = self.__db.send_read_query(FinPyQueries.get_list_outcome_transactions_query)
         else:
             raise ValueError(f"Неверный тип транзакции!")
 
