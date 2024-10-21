@@ -35,10 +35,13 @@ def input_amount():
     '''Функция ввода суммы'''
     amount = input("Введите сумму: ")
 
-    if validate_amount(amount):  # Если сумму прошла проверку, то верни её
-        return float(amount)
+    answer = validate_amount(amount)
+    if answer == 'ex':  # Если сумму прошла проверку, то верни её
+        return 'ex'
+    elif answer == False:
+        return False
 
-    return False
+    return float(answer)
 
 
 @cycle_question
@@ -46,10 +49,15 @@ def input_category():
     '''Функция ввода категории'''
     category = input("Введите категорию: ")
 
-    if validate_category(category):
-        return category
+    answer = validate_category(category)
+    if answer == 'ex':
+        return 'ex'
+    elif answer == False:
+        return False
 
-    return False
+    category = category.lower().strip()
+
+    return category.title()
 
 
 @cycle_question
@@ -58,19 +66,22 @@ def input_date():
     transaction_date = f"{datetime.date.today()}".split('-')
     transaction_date.reverse()
     transaction_date = '.'.join(transaction_date)
-    answer = input(f"Нажмите ENTER, если хотите оставить текущую дату. Иначе введите любой символ.\nВаш ответ: ")
+    confirm_date = input(f"Нажмите ENTER, если хотите оставить текущую дату. Иначе введите любой символ.\nВаш ответ: ")
 
-    if answer == '':
+    if confirm_date == '':
         return transaction_date
-    elif answer.lower().strip() == 'ex':
+    elif confirm_date.lower().strip() == 'ex':
         return 'ex'
     else:
         transaction_date = input("Введите дату в формате dd.mm.yyyy.\nВаш ответ: ")
 
-    if validate_date(transaction_date):
-        return transaction_date
+    answer = validate_date(transaction_date)
+    if answer == 'ex':
+        return 'ex'
+    elif answer == False:
+        return False
 
-    return False
+    return transaction_date
 
 
 def validate_action_message(answer, answer_options):
@@ -191,13 +202,17 @@ def start_app():
                     "Ваш ответ: "
 
     while True:
-        answer = input(choose_action_message)
-        if validate_action_message(answer, numbers_of_functions.keys()) == True:
-            result = numbers_of_functions[answer]()
+        action_number = input(choose_action_message)
+
+        answer = validate_action_message(action_number, numbers_of_functions.keys())
+        if answer == 'ex':
+            return True
+        elif answer == True:
+            result = numbers_of_functions[action_number]()
             if result == 'ex':
-                break
-        elif validate_action_message(answer, numbers_of_functions.keys()) == 'ex':
-            break
+                return True
+        else:
+            continue
         answer_continue = input("Нажмите 1 для продолжения или любую клавишу для завершения.\n")
         if answer_continue != '1':
             break
