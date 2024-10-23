@@ -5,15 +5,15 @@ from FinPyClasses import DataBase, Account, Accounts, Categories, Transactions
 
 
 def cycle_question_with_args(question_func):
-    def wrapper(message, answer_options):
+    def wrapper(*args):
         while True:
-            answer = question_func(message=message, answer_options=answer_options)
+            answer = question_func(*args)
             if answer == False:
                 continue
             elif answer == 'ex':
                 return 'ex'
             else:
-                return answer
+                return True
     return wrapper
 
 
@@ -167,8 +167,8 @@ def validate_date(transaction_date):
     return True
 
 
-@cycle_question
-def add_income_term():
+@cycle_question_with_args
+def add_income_term(transactions):
     print('\n-------------Добавление дохода-------------')
     amount = input_amount()
     if amount != 'ex':
@@ -176,7 +176,8 @@ def add_income_term():
         if category != 'ex':
             transaction_date = input_date()
             if transaction_date != 'ex':
-                print(f"{amount} | {category} | {transaction_date}")
+                transactions.add_income_transaction('income', amount, category, transaction_date)
+                print("Данные успешно добавлены!\n")
                 return True
             else:
                 return 'ex'
@@ -204,11 +205,10 @@ def start_app():
     while True:
         action_number = input(choose_action_message)
 
-        answer = validate_action_message(action_number, numbers_of_functions.keys())
-        if answer == 'ex':
+        if action_number.lower().strip() == 'ex':
             return True
-        elif answer == True:
-            result = numbers_of_functions[action_number]()
+        elif action_number == '1':
+            result = add_income_term(transactions)
             if result == 'ex':
                 return True
         else:

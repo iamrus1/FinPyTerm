@@ -9,18 +9,14 @@ incomes_table_query = '''
         income_id INTEGER PRIMARY KEY AUTOINCREMENT,
         income_amount REAL NOT NULL,
         income_category VARCHAR(20),
-        income_date DATE NOT NULL,
-        account_name VARCHAR20, 
-        FOREIGN KEY(account_name) REFERENCES accounts(account_name))
+        income_date DATE NOT NULL)
         '''
 outcomes_table_query = '''
         CREATE TABLE IF NOT EXISTS outcomes(
         outcome_id INTEGER PRIMARY KEY AUTOINCREMENT,
         outcome_amount REAL NOT NULL,
         outcome_category VARCHAR(20),
-        outcome_date DATE NOT NULL,
-        account_name VARCHAR20,
-        FOREIGN KEY(account_name) REFERENCES accounts(account_name))
+        outcome_date DATE NOT NULL)
         '''
 income_categories_table_query = '''
         CREATE TABLE IF NOT EXISTS income_categories(income_category VARCHAR(20) NOT NULL PRIMARY KEY)
@@ -38,14 +34,14 @@ add_account_query = '''INSERT or IGNORE INTO accounts (account_name, amount) VAL
 
 # Вставки транзакций доходов
 add_income_transaction_query = '''
-        INSERT or IGNORE INTO incomes (income_amount, income_category, income_date, account_name)
-        VALUES (?,?,?,?)
+        INSERT or IGNORE INTO incomes (income_amount, income_category, income_date)
+        VALUES (?,?,?)
         '''
 
 # Вставки транзакция расходов
 add_outcome_transaction_query = '''
-        INSERT or IGNORE INTO outcomes (outcome_amount, outcome_category, outcome_date, account_name) 
-        VALUES (?,?,?,?)
+        INSERT or IGNORE INTO outcomes (outcome_amount, outcome_category, outcome_date) 
+        VALUES (?,?,?)
         '''
 
 # Изменения категорий
