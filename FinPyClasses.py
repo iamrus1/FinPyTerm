@@ -147,10 +147,10 @@ class Transactions:
     def __init__(self, db):
         self.__db = db
 
-    def add_income_transaction(self, transaction_type, amount, category, date):
+    def add_transaction(self, transaction_type, amount, category, date):
         if transaction_type == 'income':
             self.__db.send_change_query(FinPyQueries.add_income_transaction_query, amount, category, date)
-        elif transaction_type == 'outcomes':
+        elif transaction_type == 'outcome':
             self.__db.send_change_query(FinPyQueries.add_outcome_transaction_query, amount, category, date)
         else:
             raise ValueError(f"Неверный тип транзакции!")

@@ -176,8 +176,31 @@ def add_income_term(transactions):
         if category != 'ex':
             transaction_date = input_date()
             if transaction_date != 'ex':
-                transactions.add_income_transaction('income', amount, category, transaction_date)
-                print("Данные успешно добавлены!\n")
+                transactions.add_transaction('income', amount, category, transaction_date)
+                print("Данные успешно добавлены!\n"
+                      "-----------------------------------------------------------------------\n")
+                return True
+            else:
+                return 'ex'
+        else:
+            return 'ex'
+    else:
+        return 'ex'
+
+    return False
+
+
+def add_outcome_term(transactions):
+    print('\n-------------Добавление расхода-------------')
+    amount = input_amount()
+    if amount != 'ex':
+        category = input_category()
+        if category != 'ex':
+            transaction_date = input_date()
+            if transaction_date != 'ex':
+                transactions.add_transaction('outcome', amount, category, transaction_date)
+                print("Данные успешно добавлены!\n"
+                      "-----------------------------------------------------------------------\n")
                 return True
             else:
                 return 'ex'
@@ -200,6 +223,7 @@ def start_app():
     choose_action_message = "-----------------------------------------------------------------------" \
                             "\nВыберите действие, которое хотите выполнить:\n" \
                     "1. Добавить доход\n" \
+                    "2. Добавить расход\n" \
                     "Введите EX для выхода\n" \
                     "Ваш ответ: "
 
@@ -210,6 +234,10 @@ def start_app():
             return True
         elif action_number == '1':
             result = add_income_term(transactions)
+            if result == 'ex':
+                return True
+        elif action_number == '2':
+            result = add_outcome_term(transactions)
             if result == 'ex':
                 return True
         else:
